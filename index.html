@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Tic Tac Toe</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="ttt.png" alt="Tic Tac Toe Icon" class="game-icon mr-2">
+            <div class="title-container">
+                <h1 class="title">Ultimate Tic Tac Toe</h1>
+                <h2 class="subtitle">Test Your Skills in the Classic Game</h2>
+            </div>
+        </header>
+        <div id="turn-indicator" class="turn-indicator">Player 1's turn</div>
+        <div id="game-board" class="game-board"></div>
+        <button id="reset-button" class="btn btn-warning mb-3">Reset Game</button>
+        <div class="board-size-input mb-3">
+            <label for="board-size" class="mr-2">Board Size (n x n):</label>
+            <input id="board-size" class="form-control d-inline-block w-auto" type="number" min="3" max="10" value="3">
+            <button id="apply-size-button" class="btn btn-primary ml-2">Apply</button>
+        </div>
+        <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" id="solo-mode-toggle">
+            <label class="form-check-label" for="solo-mode-toggle">Solo Mode</label>
+        </div>
+        <div class="leaderboard">
+            <h3>Leaderboard</h3>
+            <div class="player mb-2">
+                <span id="player1-name" class="player-name" contenteditable="true">Player 1</span>: <span id="player1-score">0</span>
+            </div>
+            <div class="player mb-2">
+                <span id="player2-name" class="player-name" contenteditable="true">Player 2</span>: <span id="player2-score">0</span>
+            </div>
+            <button id="reset-scores-button" class="btn btn-danger">Reset Scores</button>
+        </div>
+    </div>
+    <div id="modal" class="modal">
+        <div class="modal-content text-center">
+            <span id="close-button" class="close-button">&times;</span>
+            <p>Are you sure you want to reset the game?</p>
+            <button id="confirm-reset-button" class="btn btn-danger mr-2">Yes</button>
+            <button id="cancel-reset-button" class="btn btn-secondary">No</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
