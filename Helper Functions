@@ -1,0 +1,57 @@
+def check_bounds_overlap(dem_bounds, aoi_gdf):
+    """Check if AOI overlaps with DEM bounds."""
+    dem_box = box(dem_bounds.left, dem_bounds.bottom, dem_bounds.right, dem_bounds.top)
+    aoi_union = aoi_gdf.union_all() if hasattr(aoi_gdf, "union_all") else aoi_gdf.unary_union
+    return dem_box.intersects(aoi_union)
+
+def load_aoi_reproject(aoi_path, target_crs):
+    """Load AOI GeoJSON and reproject to target CRS if needed."""
+    aoi = gpd.read_file(aoi_path)
+
+    if aoi.crs is None:
+        print(f"⚠️ Warning: AOI has no CRS, assuming target CRS: {target_crs}")
+        aoi = aoi.set_crs(target_crs)
+    elif aoi.crs != target_crs:
+        print(f"🔄 Reprojecting AOI from {aoi.crs} to {target_crs}")
+        aoi = aoi.to_crs(target_crs)
+
+    shapes = [feature["geometry"] for feature in aoi.__geo_interface__["features"]]
+    return shapes, aoi
+def normalize_image_to_uint8(img_array):
+    """
+    Normalize image array to uint8 (0-255) regardless of input dtype.
+    Handles 8-bit, 16-bit, and float images.
+    """
+
+    if img_array.dtype == np.uint8:
+        return img_array
+
+    if img_array.dtype == np.uint16 or img_array.dtype == np.int16:
+        # 16-bit images: scale to 0-255
+        img_min = np.nanmin(img_array)
+        img_max = np.nanmax(img_array)
+
+        if img_max > img_min:
+            normalized = ((img_array.astype(float) - img_min) / (img_max - img_min) * 255)
+        else:
+            normalized = np.zeros_like(img_array, dtype=float)
+
+        normalized = np.clip(normalized, 0, 255).astype(np.uint8)
+
+    elif np.issubdtype(img_array.dtype, np.floating):
+        # Float images: assume 0-1 range or normalize
+        img_min = np.nanmin(img_array)
+        img_max = np.nanmax(img_array)
+
+        if img_max <= 1.0 and img_min >= 0.0:
+            normalized = (img_array * 255).astype(np.uint8)
+        elif img_max > img_min:
+            normalized = ((img_array - img_min) / (img_max - img_min) * 255)
+            normalized = np.clip(normalized, 0, 255).astype(np.uint8)
+        else:
+            normalized = np.zeros_like(img_array, dtype=np.uint8)
+
+    else:
+        normalized = np.zeros_like(img_array, dtype=np.uint8)
+
+    return normalized
