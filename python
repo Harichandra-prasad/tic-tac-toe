@@ -1,0 +1,20 @@
+# Input files
+
+DEM_PATH = "input/output_SRTMGL1.tif"      # DEM file
+IMG_PATH = "input/image.tiff"              # Satellite image (optional)
+AOI_PATH = "input/iitkgp_aoi.geojson"      # Area of interest (optional)
+
+# Output directory
+OUTDIR = "outputs"
+os.makedirs(OUTDIR, exist_ok=True)
+
+# Processing parameters
+DOWNSAMPLE = 8       # 1=full resolution, higher=coarser (reduces memory)
+Z_SCALE = 1.5        # Vertical exaggeration (1.0-5.0 typical)
+
+print("Configuration:")
+print(f" DEM: {DEM_PATH}")
+print(f" Image: {IMG_PATH}")
+print(f" AOI: {AOI_PATH}")
+print(f" Downsample: {DOWNSAMPLE}x")
+print(f" Z-Scale: {Z_SCALE}x")
