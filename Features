@@ -1,0 +1,54 @@
+Features:
+
+✅ Real elevation-based 3D geometry
+
+✅ Photorealistic satellite texture mapping
+
+✅ Interactive HTML viewer (Plotly)
+
+✅ 3D mesh export (OBJ, STL)
+
+✅ High-resolution static renders (PNG)
+
+✅ Comprehensive metadata (JSON)
+
+Bug Fixes Applied:
+
+AOI/DEM overlap detection
+
+Memory optimization for large DEMs
+
+16-bit image normalization
+
+Windows console compatibility
+
+Proper NoData handling
+
+Install all required packages
+import sys
+import subprocess
+
+packages = [
+    'rasterio',
+    'geopandas',
+    'numpy',
+    'scipy',
+    'plotly',
+    'trimesh',
+    'matplotlib',
+    'Pillow',
+    'shapely',
+    'kaleido',
+    'scikit-image',
+    'pyproj',
+]
+
+print('Installing required packages...')
+for package in packages:
+    print(f'Installing {package}...')
+    try:
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])
+    except subprocess.CalledProcessError as e:
+        print(f'[ERROR] Failed to install {package}: {e}')
+
+print('[OK] Package installation check complete!')
